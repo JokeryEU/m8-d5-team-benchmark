@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const AccommodationSchema = new Schema(
+const AccommodationsSchema = new Schema(
   {
     name: {
       type: String,
@@ -28,4 +28,4 @@ const AccommodationSchema = new Schema(
   { timestamps: true }
 );
 
-export default AccommodationSchema;
+export default AccommodationsSchema;

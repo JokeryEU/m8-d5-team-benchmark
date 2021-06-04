@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import AccommodationSchema from "./schema.js";
+import AccommodationsSchema from "./schema.js";
 const { model } = mongoose;
 
-export default model("products", AccommodationSchema);
+export default model("accommodations", AccommodationsSchema);

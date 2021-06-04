@@ -6,7 +6,7 @@ import {
   catchAllErrorHandler,
 } from "./errorHandlers.js";
 import listEndpoints from "express-list-endpoints";
-import AccommodationRouter from "./services/accommodation/index.js";
+import AccommodationsRouter from "./services/accommodation/index.js";
 import * as OpenApiValidator from "express-openapi-validator";
 import path from "path";
 import { dirname } from "path";
@@ -35,10 +35,18 @@ server.use(cors());
 
 server.use("/spec", express.static(apiSpec));
 
+server.use(
+  OpenApiValidator.default.middleware({
+    apiSpec,
+    validateRequests: true,
+    validateResponses: true,
+  })
+);
+
 server.get("/test", (req, res) => {
   res.status(200).send({ message: "Test success!" });
 });
-server.use("/accommodations", AccommodationRouter);
+server.use("/accommodations", AccommodationsRouter);
 
 server.use(badRequestErrorHandler);
 server.use(notFoundErrorHandler);
