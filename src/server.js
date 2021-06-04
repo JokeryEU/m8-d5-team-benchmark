@@ -10,6 +10,19 @@ import AccommodationRouter from "./services/accommodation/index.js";
 
 const server = express();
 server.use(express.json());
+
+const whitelist = [process.env.FE_URL_DEV, process.env.FE_URL_PROD];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
+
 server.use(cors());
 
 server.get("/test", (req, res) => {
