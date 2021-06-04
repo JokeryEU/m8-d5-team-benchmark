@@ -21,44 +21,27 @@ components:
             required: true
             example: London
 
-GET /accommodation
-
-will return the full list of accommodation
-POST /accommodation
-
-will add a new accommodation
-400 if invalid data
-GET /accommodation/:id
-
-returns an existing accommodation
-404 if not existing
-PUT /accommodation/:id
-
-will edit an existing accommodation
-404 if not existing
-DELETE /accommodation/:id
-
 servers:
   - description: ''
-    url: http://localhost:3000
+    url: http://localhost:3002
 openapi: 3.0.3
 paths:
   '/accommodation':
     get:
-      description: Returns a list of accommodations
-      operationId: getAccommodation
+      description: "Returns a list of accommodations"
+      operationId: "getAccommodation"
       responses:
         '200':
           description: 'returns an array of accomodations'
           content:
             application/json:
               schema:
-                type: array
+                type: "array"
                 items:
                   $ref: '#/components/schemas/accommodation'
     post:
-      description: This operation adds a new accommodation 
-      operationId: addAccommodation
+      description: "This operation adds a new accommodation"
+      operationId: "addAccommodation"
       requestBody:
         required: true
         content:
@@ -67,22 +50,86 @@ paths:
                 $ref: '#/components/schemas/accommodation'
       responses:
         '201':
-          description: Correctly added new accommodation
+          description: "Correctly added new accommodation"
         '400':
-          description: Bad request
-    put: 
-
-    delete:
-      description: This operation checks out people from the room
-      operationId: checkoutGuests
+          description: "Bad request"
+    '/accommodation/{id}'
+      get:
+      tags:
+      - "accommadation"
+      summary: "Find accommadation by ID"
+      description: "Returns a single accommadation"
+      operationId: "getAccommadationById"
+      produces:
+      - "application/xml"
+      - "application/json"
       parameters:
-        - schema:
-            $ref: '#/components/schemas/acc'
-          in: path
-          name: roomN
-          required: true
+      - name: "id"
+        in: "path"
+        description: "ID of accommadation to return"
+        required: true
+        type: "string"
       responses:
-        '204':
-          description: Correctly checked out people in the room
-        '400':
-          description: Bad post request
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/schema/accommadation"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Accommadation not found"
+      put:
+      tags:
+      - "accommadation"
+      summary: "Update accommadation"
+      description: "Update accommadation by id"
+      operationId: "updateAccommadation"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "accommadation that needs to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated accommadation object"
+        required: true
+        schema:
+          $ref: "#/schema/accommadation"
+      responses:
+      
+        "400":
+          description: "Invalid accommadation supplied"
+        "404":
+          description: "accommadation not found"
+      delete:
+        tags:
+        -"accommodation"
+        summary: "Deletes an accommodation"
+        description: "This operation deletes an accommodation"
+        operationId: "deleteAccomodation"
+        produces:
+        - "application/xml"
+        - "application/json"
+        parameters:
+        - name: id
+        in: path
+        description: "accomodation id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+        responses:
+          '204':
+            description: "Correctly deleted accommadation"
+          '400':
+            description: "Invalid id"
+          '404':
+            description: "id not found"
+
+
