@@ -7,6 +7,7 @@ mongoose
   .connect(process.env.ATLAS_URL + "/data", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   })
   .then(() => {
     console.log("Connected to Atlas!");

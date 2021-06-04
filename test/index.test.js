@@ -13,6 +13,7 @@ beforeAll((done) => {
     .connect(process.env.ATLAS_URL + "/test", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useFindAndModify: false,
     })
     .then(() => {
       console.log("Successfully connected to Atlas in test.");
