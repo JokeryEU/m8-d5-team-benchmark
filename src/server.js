@@ -33,7 +33,7 @@ const corsOptions = {
 
 server.use(cors());
 
-app.use("/spec", express.static(apiSpec));
+server.use("/spec", express.static(apiSpec));
 
 server.get("/test", (req, res) => {
   res.status(200).send({ message: "Test success!" });
