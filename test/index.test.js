@@ -28,8 +28,7 @@ afterAll((done) => {
 
 describe("Stage I - Testing the test env", () => {
   it("should expect that the mongodb link is not empty", () => {
-    console.log(process.env.TEST_KEY);
-    expect(process.env.TEST_KEY).toBeDefined();
+    expect(process.env.ATLAS_URL).toBeDefined();
   });
 });
 
