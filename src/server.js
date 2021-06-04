@@ -7,6 +7,14 @@ import {
 } from "./errorHandlers.js";
 import listEndpoints from "express-list-endpoints";
 import AccommodationRouter from "./services/accommodation/index.js";
+import * as OpenApiValidator from "express-openapi-validator";
+import path from "path";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const apiSpec = path.join(__dirname, "api.yaml");
 
 const server = express();
 server.use(express.json());
@@ -24,6 +32,8 @@ const corsOptions = {
 };
 
 server.use(cors());
+
+app.use("/spec", express.static(apiSpec));
 
 server.get("/test", (req, res) => {
   res.status(200).send({ message: "Test success!" });
