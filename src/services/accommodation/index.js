@@ -93,4 +93,26 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.pull("/", async (req, res, next) => {
+  try {
+    const { name, description, maxGuests, city } = req.body;
+
+    if (!description || !maxGuests || !name || !city)
+      throw new Error("Invalid data");
+
+    const accommodation = new AccommodationSchema({
+      name,
+      description,
+      maxGuests,
+      city,
+    });
+    await accommodation.save();
+
+    res.status(201).send(accommodation);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+    next(error);
+  }
+});
+
 export default router;
