@@ -130,8 +130,10 @@ describe("Checking application main endpoints", () => {
     maxGuests: 1,
   };
 
-  it("should test that the put endpoint is modifying the accommodation and return the correct status code", async () => {
-    const accommodation = await request.post("/accommodation").send(validData);
+  it("should test that the put endpoint /accommodation/:id is modifying the accommodation and returning the correct status code", async () => {
+    const res = await request.post("/accommodation").send(validData);
+    const id = res.body._id;
+    const accommodation = await request.put(`/accommodation/${id}`);
 
     const upData = await AccommodationsSchema.findByIdAndUpdate(
       accommodation.body._id,
@@ -141,9 +143,8 @@ describe("Checking application main endpoints", () => {
         new: true,
       }
     );
-    console.log(upData.status);
 
-    expect(accommodation.status).toBe(201);
+    expect(accommodation.status).toBe(200);
     expect(accommodation.body.updatedAt).not.toStrictEqual(
       new Date(upData.updatedAt)
     );
