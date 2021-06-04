@@ -75,9 +75,6 @@ router.post("/", async (req, res, next) => {
   try {
     const { name, description, maxGuests, city } = req.body;
 
-    if (!description || !maxGuests || !name || !city)
-      throw new Error("Invalid data");
-
     const accommodation = new AccommodationSchema({
       name,
       description,
@@ -93,24 +90,26 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.pull("/", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
-    const { name, description, maxGuests, city } = req.body;
-
-    if (!description || !maxGuests || !name || !city)
-      throw new Error("Invalid data");
-
-    const accommodation = new AccommodationSchema({
-      name,
-      description,
-      maxGuests,
-      city,
-    });
-    await accommodation.save();
-
-    res.status(201).send(accommodation);
+    const accommodation = await AccommodationSchema.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        runValidators: true,
+        new: true,
+      }
+    );
+    if (accommodation) {
+      res.status(200).send(accommodation);
+    } else {
+      const error = new Error(
+        `The accommodation with id ${req.params.id} was not found`
+      );
+      error.httpStatusCode = 404;
+      next(error);
+    }
   } catch (error) {
-    res.status(400).send({ message: error.message });
     next(error);
   }
 });

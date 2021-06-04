@@ -116,12 +116,39 @@ describe("Checking application main endpoints", () => {
     }
   });
 
-  it("should test that the delete endpoint is returning the correct status code", async () => {
+  it("should test that the delete endpoint /accommodation/:id is returning the correct status code", async () => {
     const accommodation = await AccommodationsSchema.create(validData);
     const { _id } = accommodation;
 
     const response = await request.delete("/accommodation/" + _id);
 
     expect(response.status).toBe(204);
+  });
+
+  const modifiedData = {
+    description: "Description test modified",
+    maxGuests: 1,
+  };
+
+  it("should test that the put endpoint is modifying the accommodation and return the correct status code", async () => {
+    const accommodation = await request.post("/accommodation").send(validData);
+
+    const upData = await AccommodationsSchema.findByIdAndUpdate(
+      accommodation.body._id,
+      modifiedData,
+      {
+        runValidators: true,
+        new: true,
+      }
+    );
+
+    if (!upData) {
+      expect(accommodation.status).toBe(404);
+    } else {
+      expect(accommodation.status).toBe(201);
+      expect(accommodation.body.updatedAt).not.toStrictEqual(
+        new Date(upData.updatedAt)
+      );
+    }
   });
 });
