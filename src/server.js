@@ -35,13 +35,13 @@ server.use(cors());
 
 server.use("/spec", express.static(apiSpec));
 
-server.use(
-  OpenApiValidator.default.middleware({
-    apiSpec,
-    validateRequests: true,
-    validateResponses: true,
-  })
-);
+// server.use(
+//   OpenApiValidator.default.middleware({
+//     apiSpec,
+//     validateRequests: true,
+//     validateResponses: true,
+//   })
+// );
 
 server.get("/test", (req, res) => {
   res.status(200).send({ message: "Test success!" });
