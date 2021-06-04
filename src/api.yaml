@@ -1,45 +1,57 @@
 components:
   schemas:
     accommodation:
-      
-        properties:
-          name:
-            type: string
-            required: true
-            example: "The Blue Room"
-          description:
-            type: string
-            required: true
-            trim: true
-            example: "this room is Blue!"
-          maxGuests:
-            type: number
-            required: true
-            example: 4
-          city:
-            type: string
-            required: true
-            example: London
+      properties:
+        name:
+          type: string
+          example: "The Blue Room"
+        description:
+          type: string
+          example: "this room is Blue!"
+        maxGuests:
+          type: number
+          example: 4
+        city:
+          type: string
+          example: London
 
+info:
+  description: "This is a sample Accomodation server."
+  version: 1.0.0
+  title: "Strivago API"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+tags:
+  - name: "accommodation"
+    description: "Everything about Accomodation"
 servers:
-  - description: ''
-    url: http://localhost:3002
+  - url: http://localhost:3002
+    description: "Local server"
+  - url: https://m8-d5-bm-prod.herokuapp.com/
+    description: "Deployed server"
 openapi: 3.0.3
 paths:
-  '/accommodation':
+  "/accommodation":
     get:
+      tags:
+        - "accommodation"
+      summary: "Get all accommodations"
       description: "Returns a list of accommodations"
       operationId: "getAccommodation"
       responses:
-        '200':
-          description: 'returns an array of accomodations'
+        "200":
+          description: "returns an array of accomodations"
           content:
             application/json:
               schema:
                 type: "array"
                 items:
-                  $ref: '#/components/schemas/accommodation'
+                  $ref: "#/components/schemas/accommodation"
     post:
+      tags:
+        - "accommodation"
+      summary: "create a new accommodation"
       description: "This operation adds a new accommodation"
       operationId: "addAccommodation"
       requestBody:
@@ -47,89 +59,78 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/accommodation'
+              $ref: "#/components/schemas/accommodation"
       responses:
-        '201':
+        "201":
           description: "Correctly added new accommodation"
-        '400':
+        "400":
           description: "Bad request"
-    '/accommodation/{id}'
-      get:
+  "/accommodation/{id}":
+    get:
       tags:
-      - "accommadation"
+        - "accommodation"
       summary: "Find accommadation by ID"
       description: "Returns a single accommadation"
       operationId: "getAccommadationById"
-      produces:
-      - "application/xml"
-      - "application/json"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "ID of accommadation to return"
-        required: true
-        type: "string"
+        - name: "id"
+          in: "path"
+          description: "ID of accommadation to return"
+          required: true
+          schema:
+            type: "string"
       responses:
         "200":
           description: "successful operation"
-          schema:
-            $ref: "#/schema/accommadation"
         "400":
           description: "Invalid ID supplied"
         "404":
           description: "Accommadation not found"
-      put:
+    put:
       tags:
-      - "accommadation"
+        - "accommodation"
       summary: "Update accommadation"
       description: "Update accommadation by id"
       operationId: "updateAccommadation"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/xml"
-      - "application/json"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "accommadation that needs to be updated"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "Updated accommadation object"
-        required: true
-        schema:
-          $ref: "#/schema/accommadation"
+        - name: "id"
+          in: "path"
+          description: "accommodation that needs to be updated"
+          required: true
+          schema:
+            type: "string"
+
+      requestBody:
+        description: Fields to update
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/accommodation"
       responses:
-      
+        "200":
+          description: "Successfully modified the accommodation"
         "400":
           description: "Invalid accommadation supplied"
         "404":
           description: "accommadation not found"
-      delete:
-        tags:
-        -"accommodation"
-        summary: "Deletes an accommodation"
-        description: "This operation deletes an accommodation"
-        operationId: "deleteAccomodation"
-        produces:
-        - "application/xml"
-        - "application/json"
-        parameters:
+    delete:
+      tags:
+        - "accommodation"
+      summary: "Deletes an accommodation"
+      description: "This operation deletes an accommodation"
+      operationId: "deleteAccomodation"
+      parameters:
         - name: id
-        in: path
-        description: "accomodation id to delete"
-        required: true
-        type: "integer"
-        format: "int64"
-        responses:
-          '204':
-            description: "Correctly deleted accommadation"
-          '400':
-            description: "Invalid id"
-          '404':
-            description: "id not found"
+          in: path
+          description: "accomodation id to delete"
+          required: true
+          schema:
+            type: "string"
 
-
+      responses:
+        "204":
+          description: "Correctly deleted accommadation"
+        "400":
+          description: "Invalid id"
+        "404":
+          description: "id not found"
