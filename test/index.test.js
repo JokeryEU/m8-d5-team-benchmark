@@ -43,7 +43,7 @@ describe("Checking application main endpoints", () => {
   it("should check that the get /accommodations endpoint is working", async () => {
     const response = await request.get("/accommodations");
     expect(response.status).toBe(200);
-    console.log(response.body);
+
     expect(response.body.accommodations).toBeDefined();
     expect(response.body.accommodations.length).toBe(0);
   });
@@ -57,7 +57,7 @@ describe("Checking application main endpoints", () => {
 
   it("should check that the /accommodations endpoint is allowing POST requests with valid data", async () => {
     const response = await request.post("/accommodations").send(validData);
-    console.log(response.body);
+
     expect(response.status).toBe(201);
     expect(response.body._id).toBeDefined();
     expect(response.body.description).toEqual(validData.description);
@@ -94,7 +94,7 @@ describe("Checking application main endpoints", () => {
       .send(validData);
 
     const response = await request.get("/accommodations");
-    console.log(response.body);
+
     const included = response.body.accommodations.some(
       (accommodation) => accommodation._id === accommodationResponse.body._id
     );
