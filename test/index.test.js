@@ -27,22 +27,9 @@ afterAll((done) => {
 });
 
 describe("Stage I - Testing the test env", () => {
-  it("should test that true is true", () => {
-    expect(true).toBe(true);
-  });
-
-  it("should test that false is not true", () => {
-    expect(false).not.toBe(true);
-  });
-
-  it("should test that false is falsy", () => {
-    expect(false).toBeFalsy();
-  });
-
-  it("should expect that the test key is 123", () => {
+  it("should expect that the mongodb link is not empty", () => {
     console.log(process.env.TEST_KEY);
     expect(process.env.TEST_KEY).toBeDefined();
-    expect(process.env.TEST_KEY).toBe("123");
   });
 });
 
