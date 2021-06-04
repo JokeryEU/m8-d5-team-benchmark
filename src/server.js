@@ -46,7 +46,7 @@ server.use("/spec", express.static(apiSpec));
 server.get("/test", (req, res) => {
   res.status(200).send({ message: "Test success!" });
 });
-server.use("/accommodations", AccommodationsRouter);
+server.use("/accommodation", AccommodationsRouter);
 
 server.use(badRequestErrorHandler);
 server.use(notFoundErrorHandler);

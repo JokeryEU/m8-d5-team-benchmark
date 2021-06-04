@@ -40,8 +40,8 @@ describe("Checking application main endpoints", () => {
     expect(response.body.message).toBe("Test success!");
   });
 
-  it("should check that the get /accommodations endpoint is working", async () => {
-    const response = await request.get("/accommodations");
+  it("should check that the get /accommodation endpoint is working", async () => {
+    const response = await request.get("/accommodation");
     expect(response.status).toBe(200);
 
     expect(response.body.accommodations).toBeDefined();
@@ -55,8 +55,8 @@ describe("Checking application main endpoints", () => {
     city: "Paris",
   };
 
-  it("should check that the /accommodations endpoint is allowing POST requests with valid data", async () => {
-    const response = await request.post("/accommodations").send(validData);
+  it("should check that the /accommodation endpoint is allowing POST requests with valid data", async () => {
+    const response = await request.post("/accommodation").send(validData);
 
     expect(response.status).toBe(201);
     expect(response.body._id).toBeDefined();
@@ -68,14 +68,14 @@ describe("Checking application main endpoints", () => {
     maxGuests: 0,
   };
 
-  it("should check that the /accommodations endpoint is NOT allowing POST requests with invalid data", async () => {
-    const response = await request.post("/accommodations").send(invalidData);
+  it("should check that the /accommodation endpoint is NOT allowing POST requests with invalid data", async () => {
+    const response = await request.post("/accommodation").send(invalidData);
     expect(response.status).toBe(400);
     expect(response.body._id).not.toBeDefined();
   });
 
-  it("should test that the /accommodations endpoint is returning valid data after creating", async () => {
-    const response = await request.post("/accommodations").send(validData);
+  it("should test that the /accommodation endpoint is returning valid data after creating", async () => {
+    const response = await request.post("/accommodation").send(validData);
 
     const accommodation = await AccommodationsSchema.findById(
       response.body._id
@@ -88,12 +88,12 @@ describe("Checking application main endpoints", () => {
     );
   });
 
-  it("should test that the /accommodations endpoint is returning all the accommodations available", async () => {
+  it("should test that the /accommodation endpoint is returning all the accommodation available", async () => {
     const accommodationResponse = await request
-      .post("/accommodations")
+      .post("/accommodation")
       .send(validData);
 
-    const response = await request.get("/accommodations");
+    const response = await request.get("/accommodation");
 
     const included = response.body.accommodations.some(
       (accommodation) => accommodation._id === accommodationResponse.body._id
@@ -102,10 +102,10 @@ describe("Checking application main endpoints", () => {
     expect(included).toBe(true);
   });
 
-  it("should test that status code is correct for not found /accommodations/:id", async () => {
+  it("should test that status code is correct for not found /accommodation/:id", async () => {
     const params = "101010101010101010010100";
 
-    const response = await request.get("/accommodations/" + params);
+    const response = await request.get("/accommodation/" + params);
 
     const accommodation = await AccommodationsSchema.findById(params);
     if (!accommodation) {
@@ -119,7 +119,7 @@ describe("Checking application main endpoints", () => {
     const accommodation = await AccommodationsSchema.create(validData);
     const { _id } = accommodation;
 
-    const response = await request.delete("/accommodations/" + _id);
+    const response = await request.delete("/accommodation/" + _id);
 
     expect(response.status).toBe(204);
   });
