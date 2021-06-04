@@ -31,7 +31,7 @@ const corsOptions = {
   },
 };
 
-server.use(cors(corsOptions));
+server.use(cors());
 
 server.use("/spec", express.static(apiSpec));
 
