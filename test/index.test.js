@@ -141,14 +141,11 @@ describe("Checking application main endpoints", () => {
         new: true,
       }
     );
+    console.log(upData.status);
 
-    if (!upData) {
-      expect(accommodation.status).toBe(404);
-    } else {
-      expect(accommodation.status).toBe(201);
-      expect(accommodation.body.updatedAt).not.toStrictEqual(
-        new Date(upData.updatedAt)
-      );
-    }
+    expect(accommodation.status).toBe(201);
+    expect(accommodation.body.updatedAt).not.toStrictEqual(
+      new Date(upData.updatedAt)
+    );
   });
 });
