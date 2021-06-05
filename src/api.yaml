@@ -28,7 +28,7 @@ tags:
 servers:
   - url: http://localhost:3002
     description: "Local server"
-  - url: https://strive-heroku-test.herokuapp.com/
+  - url: https://m8-d5-bm-prod.herokuapp.com/
     description: "Deployed server"
 openapi: 3.0.3
 paths:
