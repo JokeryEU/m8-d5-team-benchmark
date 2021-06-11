@@ -37,14 +37,22 @@ authRouter.post("/logout", jwtAuth, async (req, res, next) => {
   try {
     req.user.refreshToken = null;
     await req.user.save();
-    res.send();
+    res.clearCookie("accessToken", {
+      sameSite: "lax",
+      httpOnly: true,
+    });
+    res.clearCookie("refreshToken", {
+      sameSite: "lax",
+      httpOnly: true,
+    });
   } catch (error) {
     next(error);
   }
 });
 
 authRouter.post("/refreshToken", async (req, res, next) => {
-  const oldRefreshToken = req.body.refreshToken;
+  // const oldRefreshToken = req.body.refreshToken;
+  const oldRefreshToken = req.cookies.accessToken;
   if (!oldRefreshToken)
     return next(new ErrorResponse("Refresh token is missing", 400));
 

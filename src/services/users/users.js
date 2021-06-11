@@ -18,9 +18,6 @@ router.get("/", hostOnly, async (req, res, next) => {
 
 router.get("/me", async (req, res, next) => {
   try {
-    console.log("THIS IS MEEEEEE");
-    console.log(req.user);
-
     res.send(req.user);
   } catch (error) {
     next(error);
