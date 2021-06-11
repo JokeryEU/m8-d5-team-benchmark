@@ -24,6 +24,7 @@ const AccommodationsSchema = new Schema(
       required: true,
       trim: true,
     },
+    host: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }
 );

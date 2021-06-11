@@ -109,20 +109,18 @@ describe("Checking application main endpoints", () => {
     const response = await request.get("/accommodation/" + params);
 
     const accommodation = await AccommodationsSchema.findById(params);
-    if (!accommodation) {
-      expect(response.status).toBe(404);
-    } else {
-      expect(response.status).toBe(200);
-    }
+    if (!accommodation) return expect(response.status).toBe(404);
   });
 
-  it("should test that the delete endpoint /accommodation/:id is returning the correct status code", async () => {
+  it("should test that the delete endpoint /accommodation/:id checking if it was deleted and if still exists", async () => {
     const accommodation = await AccommodationsSchema.create(validData);
     const { _id } = accommodation;
 
     const response = await request.delete("/accommodation/" + _id);
-
     expect(response.status).toBe(204);
+
+    const ifExists = await AccommodationsSchema.findById(_id);
+    expect(ifExists).toBe(null);
   });
 
   const modifiedData = {

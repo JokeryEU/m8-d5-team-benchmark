@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 import server from "./server.js";
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 
 mongoose
   .connect(process.env.ATLAS_URL + "/data", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
+    useCreateIndex: true,
   })
   .then(() => {
     console.log("Connected to Atlas!");
